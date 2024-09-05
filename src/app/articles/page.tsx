@@ -9,7 +9,6 @@ import { resolve } from 'path';
 
 
 const ArticlesPage = async() => {
-  await new Promise(resolve => setTimeout(resolve, 10000));
   const response  = await fetch("https://jsonplaceholder.typicode.com/posts" , {next : {revalidate : 50}});
   if (!response.ok) {
   throw new Error("failed to fetch articles");
