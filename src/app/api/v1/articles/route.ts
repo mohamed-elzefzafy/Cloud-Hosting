@@ -3,8 +3,7 @@ import prisma from "@/utils/db";
 import { createArticleDto } from "@/utils/dtos";
 import { TArticles } from "@/utils/types";
 import { createArticleSchema } from "@/utils/validationSchema";
-import { Article, PrismaClient } from "@prisma/client";
-
+import { Article } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 

@@ -5,3 +5,13 @@ export const createArticleSchema =  z.object({
   .min(2 ,"title must be more than 2 characters").max(200 , {message : "max title length is 200"}),
   description : z.string().min(10),
 })
+
+export const registerSchema =  z.object({
+  email : z.string().min(3).max(200).email(),
+  userName : z.string().min(2).max(100),
+  password : z.string().min(6),
+})
+export const loginSchema =  z.object({
+  email : z.string().min(3).max(200).email(),
+  password : z.string().min(6),
+})
