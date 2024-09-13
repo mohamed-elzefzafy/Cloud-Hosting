@@ -23,18 +23,10 @@ export async function DELETE(request: NextRequest, { params }: Iprops) {
       return NextResponse.json({ message: "user not found" }, { status: 400 });
     }
 
-    const headerToken = request.headers.get('jwt');
-
-    if (!headerToken) {
-      return NextResponse.json(
-        { message: "no token provided, access denied" },
-        { status: 401 }
-      );
-    }
-
+    const authToken = request.headers.get('jwt') as string;
 
     const userFromToken = jwt.verify(
-      headerToken,
+      authToken,
       process.env.JWT_SECRET as string
     ) as JwtPayload;
 

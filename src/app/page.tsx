@@ -3,7 +3,6 @@ import WebHostingPlan from "@/components/home/WebHostingPlan";
 
 
 const HomePage = () => {
-  
   return (
 <section>
   <Hero/>

@@ -5,6 +5,8 @@ import bcrypt from "bcryptjs";
 import { loginSchema } from "@/utils/validationSchema";
 import { generateToken } from "@/utils/generateToken";
 import { JwtPayload } from "@/utils/types";
+import { serialize } from "cookie";
+
 
 
 
@@ -34,7 +36,14 @@ if (!passwordMatch) {
 
 const jwtPayLoad : JwtPayload = {id : user.id , isAdmin : user.isAdmin , userName : user.userName };
 const token = generateToken(jwtPayLoad);
-return NextResponse.json({message : "Authenticated" , token} , {status : 200});
+const cookie = serialize("jwt" , token , {
+  httpOnly : true,
+  secure : process.env.NODE_ENV === "production",
+  sameSite : "strict",
+  path : "/",
+  maxAge : 60 * 60 * 24 * 30,
+})
+return NextResponse.json({message : "Authenticated" } , {status : 200 , headers : { "Set-Cookie" : cookie}});
 } catch (error) {
   return NextResponse.json({message : "internal server error"},{status : 500});
 }
