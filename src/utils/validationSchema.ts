@@ -11,7 +11,21 @@ export const registerSchema =  z.object({
   userName : z.string().min(2).max(100),
   password : z.string().min(6),
 })
+
+export const updateUserSchema =  z.object({
+  email : z.string().min(3).max(200).email().optional(),
+  userName : z.string().min(2).max(100).optional(),
+  password : z.string().min(6).optional(),
+})
+
+
+
 export const loginSchema =  z.object({
   email : z.string().min(3).max(200).email(),
   password : z.string().min(6),
+})
+
+export const createCommenSchema =  z.object({
+  text : z.string().min(2).max(500),
+  articleId : z.number(),
 })

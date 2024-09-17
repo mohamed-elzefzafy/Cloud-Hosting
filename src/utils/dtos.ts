@@ -20,3 +20,13 @@ export interface updateArticleDto  {
     password: string, 
     }
     
+    export interface updateUserDto  {
+      email?: string,
+      password?: string, 
+      userName?: string, 
+      }
+      
+      export interface CreateCommentDto{
+        text : string,
+        articleId : number,
+      }
