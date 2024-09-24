@@ -30,3 +30,6 @@ export interface updateArticleDto  {
         text : string,
         articleId : number,
       }
+      export interface UpdateCommentDto{
+        text : string,
+      }

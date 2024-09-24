@@ -21,6 +21,9 @@ export async function DELETE(request: NextRequest, { params }: Iprops) {
 
     const user = await prisma.user.findUnique({
       where: { id: parseInt(params.id) },
+      include : {
+        comments: true
+      }
     });
 
     if (!user) {
@@ -43,7 +46,9 @@ export async function DELETE(request: NextRequest, { params }: Iprops) {
     }
 
     await prisma.user.delete({ where: { id: parseInt(params.id) } });
-
+    const commentIds = user.comments.map(comment => comment.id);
+    await prisma.comment.deleteMany({where : {id : {in : commentIds}}});
+    
     return NextResponse.json(
       { message: "user deleted successfully" },
       { status: 200 }

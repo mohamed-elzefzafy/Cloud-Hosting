@@ -17,7 +17,7 @@ const [toggle, setToggle] = useState(false);
 <div className={style.navLinksWrapper} style={{clipPath : toggle ? "polygon(0 0, 100% 0, 100% 100%, 0% 100%)" : ""}}>
 <ul className={style.navLinks}>
       <Link href="/" className={style.navLink} onClick={()=> setToggle(false)}>Home</Link>
-      <Link href="/articles" className={style.navLink} onClick={()=> setToggle(false)}>Articles</Link>
+      <Link href="/articles?pageNumber=1" className={style.navLink} onClick={()=> setToggle(false)}>Articles</Link>
       <Link href="/about" className={style.navLink} onClick={()=> setToggle(false)}>About</Link>
       <Link href="/admin" className={style.navLink} onClick={()=> setToggle(false)}>Admin Dashboard</Link>
   
