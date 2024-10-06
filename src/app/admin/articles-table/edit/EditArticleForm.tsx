@@ -1,24 +1,26 @@
 "use client";
 import request from "@/utils/request";
+import { Article } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 
-const AddArticleForm = () => {
+interface IEditArticleProps {
+   article :Article 
+}
+const EditArticleForm = ({article} : IEditArticleProps) => {
   const router = useRouter();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  
+  const [title, setTitle] = useState(article.title);
+  const [description, setDescription] = useState(article.description);
+
 const formSubmitHandler = async(e : FormEvent) => {
 e.preventDefault();
 if (title ==="") return toast.error("title is required");
 if (description ==="") return toast.error("description is required");
 
   try {
-    await request.post("/api/v1/articles" , {title , description});
-    setTitle("");
-    setDescription("");
-    toast.success("articles added successfully");
+    await request.put(`/api/v1/articles/${article.id}` , {title , description});
+    toast.success("articles updated successfully");
     router.refresh();
   } catch (error : any) {
     toast.error(error?.response?.data.message)
@@ -31,7 +33,6 @@ if (description ==="") return toast.error("description is required");
       <input
         className="mb-4 border rounded p-2 text-xl"
         type="text"
-        placeholder="Enter Article Title"
         value={title}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           setTitle(e.target.value)
@@ -40,7 +41,6 @@ if (description ==="") return toast.error("description is required");
       <textarea
         className="mb-4 rounded p-2 lg:text-xl resize-none"
         rows={5}
-        placeholder="Enter Article Description"
         value={description}
         onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)}
       />
@@ -48,10 +48,10 @@ if (description ==="") return toast.error("description is required");
         type="submit"
         className="text-2xl text-white bg-blue-800 hover:bg-blue-900 p-2 rounded-lg font-bold"
       >
-        Add
+        Update
       </button>
     </form>
   );
 };
 
-export default AddArticleForm;
+export default EditArticleForm;

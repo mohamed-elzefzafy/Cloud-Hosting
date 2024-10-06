@@ -1,22 +1,32 @@
 "use client";
+import ButtonSpinner from "@/components/ButtonSpinner";
+import request from "@/utils/request";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState("");
   const router = useRouter();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  console.log(email);
-  console.log(password);
-const formSubmitHandler = (e : FormEvent) => {
+  const [loading, setLoading] = useState(false);
+
+  
+const formSubmitHandler = async(e : FormEvent) => {
 e.preventDefault();
 if (email ==="") return toast.error("email is required");
 if (password ==="") return toast.error("password is required");
 
-  
-console.log({email , password});
-router.replace("/");
+try {
+  setLoading(true);
+  await request.post("/api/v1/users/login" ,{password , email});
+  router.replace("/");
+  setLoading(false);
+ router.refresh();
+} catch (error : any ) {
+  toast.error(error?.response.data.message);
+  setLoading(false);
+}
 }
   return (
     <form className="flex flex-col gap-4" onSubmit={formSubmitHandler}>
@@ -40,9 +50,11 @@ router.replace("/");
       />
       <button
         type="submit"
-        className="text-2xl text-white bg-blue-800 p-2 rounded-lg font-bold"
+        disabled={loading}
+        className="text-2xl text-white bg-blue-800 disabled:bg-blue-500 
+        disabled:cursor-not-allowed p-2 rounded-lg font-bold"
       >
-        Login
+        {loading ? <ButtonSpinner/> : "Login"}
       </button>
     </form>
   );

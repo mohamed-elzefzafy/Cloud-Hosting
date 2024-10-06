@@ -39,9 +39,9 @@ import { NextRequest, NextResponse } from "next/server";
 
  
 /**-------------------------------------
- * @desc    create comment
+ * @desc    get comments
  * @route   ~/api/comments
- * @method  POST
+ * @method  GET
  * @access  private only admin
  ----------------------------------------*/
  export async function GET(request : NextRequest) {

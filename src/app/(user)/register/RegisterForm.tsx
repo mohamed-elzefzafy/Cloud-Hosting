@@ -1,22 +1,35 @@
 "use client"
+import ButtonSpinner from "@/components/ButtonSpinner";
+import request from "@/utils/request";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 
 
 const RegisterForm = () => {
+  const router = useRouter();
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  console.log(email);
-  console.log(password);
-const formSubmitHandler = (e : FormEvent) => {
+  const [loading, setLoading] = useState(false);
+
+
+const formSubmitHandler = async(e : FormEvent) => {
 e.preventDefault();
 if (userName ==="") return toast.error("user Name is required");
 if (email ==="") return toast.error("email is required");
 if (password ==="") return toast.error("password is required");
 
-  
-console.log({email , password , userName});
+try {
+  setLoading(true);
+  await request.post("/api/v1/users/register" , {userName , password , email});
+  router.replace("/");
+  setLoading(false);
+  router.refresh();
+} catch (error : any) {
+  toast.error(error?.response.data.message);
+  setLoading(false);
+}
 
 }
   return (
@@ -48,11 +61,14 @@ console.log({email , password , userName});
         setPassword(e.target.value)
       }
     />
-    <button
-      type="submit"
-      className="text-2xl text-white bg-blue-800 p-2 rounded-lg font-bold">
-      Register
-    </button>
+         <button
+        type="submit"
+        disabled={loading}
+        className="text-2xl text-white bg-blue-800 disabled:bg-blue-500 
+        disabled:cursor-not-allowed p-2 rounded-lg font-bold"
+      >
+        {loading ? <ButtonSpinner/> : "Register"}
+      </button>
   </form>
   )
 }

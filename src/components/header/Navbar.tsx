@@ -5,7 +5,12 @@ import style from "./header.module.css";
 import { GrTechnology } from 'react-icons/gr';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { IoMdClose } from 'react-icons/io';
-const Navbar = () => {
+import { JwtPayload } from 'jsonwebtoken';
+
+interface INavbarProps{
+isAdmin : boolean; 
+}
+const Navbar = ({isAdmin} :INavbarProps) => {
 const [toggle, setToggle] = useState(false);
   
   return (
@@ -19,7 +24,7 @@ const [toggle, setToggle] = useState(false);
       <Link href="/" className={style.navLink} onClick={()=> setToggle(false)}>Home</Link>
       <Link href="/articles?pageNumber=1" className={style.navLink} onClick={()=> setToggle(false)}>Articles</Link>
       <Link href="/about" className={style.navLink} onClick={()=> setToggle(false)}>About</Link>
-      <Link href="/admin" className={style.navLink} onClick={()=> setToggle(false)}>Admin Dashboard</Link>
+{isAdmin && <Link href="/admin" className={style.navLink} onClick={()=> setToggle(false)}>Admin Dashboard</Link>}
   
     </ul>
 </div>

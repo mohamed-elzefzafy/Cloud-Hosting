@@ -3,7 +3,8 @@ import ArticleItem from '@/components/articles/ArticleItem';
 import Pagination from '@/components/articles/Pagination';
 import SearchArticleInput from '@/components/articles/SearchArticleInput';
 import { articlePerPage } from '@/utils/constants';
-import { Article } from '@prisma/client';
+import prisma from '@/utils/db';
+import { Article, Prisma } from '@prisma/client';
 import { Metadata } from 'next';
 
 
@@ -18,7 +19,8 @@ const ArticlesPage = async({searchParams} : ArticlePageProps) => {
   throw new Error("failed to fetch articles");
   }
   const articles : Article[] = await getArticles(pageNumber);
-  const count :number = await getArticlesCount();
+  const count :number = await prisma.article.count();
+  
   const pages = Math.ceil(count / articlePerPage);
   
   return (

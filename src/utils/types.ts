@@ -1,3 +1,5 @@
+import { Article, Comment, User } from "@prisma/client";
+
 export type TArticles = {
   userId: number;
   id: number;
@@ -18,4 +20,6 @@ export type JwtPayload = {
   userName: string;
 };
 
+export type CommentWithUser = Comment & {user : User};
+export type SingleArticle = Article & {Comments :CommentWithUser[]}
 

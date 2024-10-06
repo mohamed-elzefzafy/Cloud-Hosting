@@ -13,3 +13,16 @@ try {
     return null;
 }
 }
+
+
+export function verifyTokenForClient (token : string) : JwtPayload | null {
+    try {
+        const userPayload = jwt.verify(token , process.env.JWT_SECRET as string) as JwtPayload;
+        
+        if (!userPayload) return null;
+        return userPayload;
+    } catch (error) {
+
+        return null;
+    }
+    }

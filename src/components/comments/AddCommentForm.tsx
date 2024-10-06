@@ -1,17 +1,27 @@
 "use client";
+import request from "@/utils/request";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 
+interface AddCommentFormProps {
+  articleId: number;
+}
 
-const AddCommentForm = () => {
+const AddCommentForm = ({articleId} : AddCommentFormProps) => {
   const [text, setText] = useState("");
+  const router = useRouter();
 
-
-
-const formSubmitHandler = (e : FormEvent) => {
+const formSubmitHandler = async(e : FormEvent) => {
 e.preventDefault();
 if (text === "") return toast.error("please write a comment ");
-console.log({text});
+try {
+  await request.post("/api/v1/comments" , {text , articleId});
+  router.refresh();
+setText("");
+} catch (error : any) {
+  toast.error(error?.response?.data.message)
+}
 
 }
   return (

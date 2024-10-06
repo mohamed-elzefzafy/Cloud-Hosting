@@ -1,7 +1,10 @@
 import RegisterForm from "./RegisterForm";
 
 
+
 const RegisterPage = () => {
+
+  
   return (
     <section  className="fixed-height container m-auto px-7 flex items-center justify-center">
     <div className="m-auto bg-white rounded-lg p-5 w-full md:w-2/3">
